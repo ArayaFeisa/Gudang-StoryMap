@@ -1,0 +1,88 @@
+form#add-story-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+  background-color: #fff8e8;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #3e2c23;
+}
+
+textarea,
+input[type="file"] {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fdfbf7;
+}
+
+#camera,
+canvas#snapshot {
+  margin-top: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  max-width: 100%;
+}
+
+#map {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+button,
+.submit-btn,
+.btn-back {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #0a9db0;
+  color: #fff8e8;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  align-self: flex-start;
+}
+
+button:hover,
+.submit-btn:hover,
+.btn-back:hover {
+  background-color: #096d7b;
+}
+
+#message {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  background-color: #fcf4dc;
+  color: #3e2c23;
+}
+
+/* Spacing antar elemen */
+#take-photo {
+  margin-bottom: 1rem;
+}
+
+#camera {
+  margin-bottom: 1rem;
+}
+
+input[type="file"] {
+  margin-bottom: 1rem;
+}
+
+#snapshot {
+  margin-top: 1rem;
+}
