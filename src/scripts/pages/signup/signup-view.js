@@ -1,8 +1,7 @@
-import Api from "../../data/api";
 import "../../../styles/signup.css";
 
-export default class SignupPage {
-  async render() {
+const SignupView = {
+  render() {
     return `
       <a href="#" class="skip-to-content" id="skip-to-content-link">Langsung sign up</a>
 
@@ -25,43 +24,30 @@ export default class SignupPage {
         </div>
       </section>
     `;
-  }
+  },
 
-  async afterRender() {
-    // Skip-to-content behavior
+  bindEvents(signupHandler) {
     const skipLink = document.getElementById("skip-to-content-link");
     const signupSection = document.getElementById("signup-content");
 
-    skipLink.addEventListener("click", (e) => {
-      e.preventDefault(); // Hindari triggering hash route
+    skipLink?.addEventListener("click", (e) => {
+      e.preventDefault();
       signupSection.scrollIntoView({ behavior: "smooth" });
-      signupSection.focus(); // Fokus manual untuk screen reader & keyboard
+      signupSection.focus();
     });
 
-    // Form logic
-    const form = document.querySelector("#signup-form");
-    const messageContainer = document.querySelector("#signup-message");
+    const form = document.getElementById("signup-form");
+    const messageContainer = document.getElementById("signup-message");
 
-    form.addEventListener("submit", async (e) => {
+    form?.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const name = form.name.value;
+      const email = form.email.value;
+      const password = form.password.value;
 
-      const name = document.querySelector("#name").value;
-      const email = document.querySelector("#email").value;
-      const password = document.querySelector("#password").value;
-
-      try {
-        const result = await Api.registerUser(name, email, password);
-
-        if (!result.error) {
-          messageContainer.innerHTML =
-            '<p class="success">Akun berhasil dibuat. Silakan login.</p>';
-          window.location.hash = "#/login";
-        } else {
-          messageContainer.innerHTML = `<p class="error">${result.message}</p>`;
-        }
-      } catch (error) {
-        messageContainer.innerHTML = `<p class="error">Gagal mendaftar. Coba lagi.</p>`;
-      }
+      signupHandler(name, email, password, messageContainer);
     });
   }
-}
+};
+
+export default SignupView;

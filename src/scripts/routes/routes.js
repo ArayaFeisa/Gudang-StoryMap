@@ -1,17 +1,18 @@
-import HomePage from "../pages/home/home-page";
 import AboutPage from "../pages/about/about-page";
-import SignupPage from "../pages/signup/signup-page";
-import AddStoryPage from "../pages/add-story/add-story-page";
-import LandingPage from "../pages/landing/index.js";  // pastikan ini sudah export instance
-import LoginPage from "../pages/login/index.js"; // ✅ Bukan dari login-page.js
+import LandingPage from "../pages/landing/index.js"; 
+import LoginPage from "../pages/login/index.js";
+import SignupPage from "../pages/signup/index.js";
+import HomePage from "../pages/home/index.js";
+import AddStoryPage from "../pages/add-story/index.js";
+
 
 const routes = {
-  "/": LandingPage,   // jangan new LandingPage()
+  "/": LandingPage,
   "/login": LoginPage,
+  "/signup": SignupPage,
+  "/home": HomePage,
   "/about": new AboutPage(),
-  "/signup": new SignupPage(),
-  "/home": new HomePage(),
-  "/add-story": new AddStoryPage(),
+  "/add-story": AddStoryPage,
 };
 
 export default routes;

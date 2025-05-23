@@ -1,0 +1,118 @@
+import "../../../styles/home-page.css";
+import "leaflet/dist/leaflet.css";
+
+const HomeView = {
+  render() {
+    return `
+      <a href="#home-container" class="skip-to-content">Langsung ke beranda</a>
+      <section class="container" id="home-container" tabindex="-1">
+        <h2>Story Terbaru</h2>
+        <div id="story-list" class="story-list"></div>
+        <div id="map" style="height: 400px; margin-top: 2rem;"></div>
+      </section>
+    `;
+  },
+
+  bindEvents() {
+    const skipLink = document.querySelector(".skip-to-content");
+    const target = document.getElementById("home-container");
+    skipLink?.addEventListener("click", (e) => {
+      e.preventDefault();
+      target?.focus();
+    });
+  },
+
+  showUnauthorizedMessage() {
+    const container = document.getElementById("home-container");
+    container.innerHTML = `
+      <section style="text-align: center; padding: 40px 20px;" tabindex="-1">
+        <h2 style="margin-bottom: 24px; font-size: 1.5rem;">
+          Untuk mengakses beranda, silakan login terlebih dahulu!
+        </h2>
+        <a href="#/">
+          <button style="font-size: 1rem; padding: 10px 20px;">
+            Kembali ke Halaman Utama
+          </button>
+        </a>
+      </section>
+    `;
+  },
+
+  renderStories(listStory) {
+    const container = document.getElementById("story-list");
+    container.innerHTML = listStory.map(
+      (story) => `
+        <div class="story-item">
+          <img src="${story.photoUrl}" alt="${story.name}" class="story-img" />
+          <div class="story-content">
+            <h4>${story.name}</h4>
+            <p>${story.description}</p>
+            <small>${new Date(story.createdAt).toLocaleString()}</small>
+          </div>
+        </div>
+    `).join("");
+  },
+
+  renderMap(listStory) {
+    const mapContainer = document.getElementById("map");
+
+    const L = require("leaflet");
+    const markerIcon = require("leaflet/dist/images/marker-icon.png");
+    const markerRetina = require("leaflet/dist/images/marker-icon-2x.png");
+    const markerShadow = require("leaflet/dist/images/marker-shadow.png");
+
+    delete L.Icon.Default.prototype._getIconUrl;
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: markerRetina,
+      iconUrl: markerIcon,
+      shadowUrl: markerShadow,
+    });
+
+    const map = L.map(mapContainer).setView([0, 0], 2);
+
+    const streetsLayer = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      { attribution: "© OpenStreetMap contributors" }
+    );
+
+    const satelliteLayer = L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      { attribution: "Tiles © Esri" }
+    );
+
+    const terrainLayer = L.tileLayer(
+      "https://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.jpg",
+      { attribution: "© Stamen Design" }
+    );
+
+    L.control.layers({
+      Streets: streetsLayer,
+      Satellite: satelliteLayer,
+      Terrain: terrainLayer,
+    }).addTo(map);
+
+    streetsLayer.addTo(map);
+
+    const coordinates = listStory.filter(s => s.lat && s.lon).map(s => [s.lat, s.lon]);
+
+    if (coordinates.length > 0) {
+      const avgLat = coordinates.reduce((sum, c) => sum + c[0], 0) / coordinates.length;
+      const avgLon = coordinates.reduce((sum, c) => sum + c[1], 0) / coordinates.length;
+      map.setView([avgLat, avgLon], 10);
+    }
+
+    listStory.forEach((story) => {
+      if (story.lat && story.lon) {
+        const marker = L.marker([story.lat, story.lon]).addTo(map);
+        marker.bindPopup(`<strong>${story.name}</strong><br>${story.description}`);
+      }
+    });
+  },
+
+  showErrorMessage(message = "Gagal memuat data stories.") {
+    const container = document.getElementById("story-list");
+    container.innerHTML = `<p>${message}</p>`;
+  }
+};
+
+export default HomeView;
