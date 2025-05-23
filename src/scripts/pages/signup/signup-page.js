@@ -4,7 +4,7 @@ import "../../../styles/signup.css";
 export default class SignupPage {
   async render() {
     return `
-      <a href="#" class="skip-to-content" id="skip-to-content-link">Lewati ke konten pendaftaran</a>
+      <a href="#" class="skip-to-content" id="skip-to-content-link">Langsung sign up</a>
 
       <section id="signup-content" class="signup-page container" tabindex="-1">
         <div class="signup-wrapper">

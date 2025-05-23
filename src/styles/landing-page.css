@@ -42,6 +42,46 @@
   border-radius: 10px;
 }
 
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #0a9db0;
+  color: white;
+  padding: 8px 16px;
+  z-index: 1000;
+  transition: top 0.3s;
+  text-decoration: none;
+  border-radius: 0 0 5px 5px;
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: none;
+}
+
+.start-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #0a9db0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.start-button:hover {
+  background-color: #096d7b;
+}
+
+.landing-description {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+
 @media (max-width: 768px) {
   .landing {
     flex-direction: column;

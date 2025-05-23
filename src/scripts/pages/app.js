@@ -46,18 +46,19 @@ class App {
   }
 
   async renderPage() {
-    const url = getActiveRoute();
-    const page = routes[url];
+  const url = getActiveRoute();
+  console.log("Rute aktif:", url); // ⬅️ Tambahkan ini
+  const page = routes[url];
 
-    this._addFadeOut();
+  this._addFadeOut();
 
-    setTimeout(async () => {
-      this.#content.innerHTML = await page.render();
-      await page.afterRender();
+  setTimeout(async () => {
+    this.#content.innerHTML = await page.render();
+    await page.afterRender();
+    this._addFadeIn();
+  }, 500);
+}
 
-      this._addFadeIn();
-    }, 500);
-  }
 }
 
 export default App;

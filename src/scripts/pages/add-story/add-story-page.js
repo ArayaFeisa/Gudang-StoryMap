@@ -9,21 +9,22 @@ export default class AddStoryPage {
 
     if (!token) {
       return `
-          <section class="container" style="text-align: center; padding: 40px 20px;">
-            <h2 style="margin-bottom: 24px; font-size: 1.5rem;">
-              Untuk menambahkan story, silakan login terlebih dahulu!
-            </h2>
-            <a href="#/">
-              <button class="btn-back" style="font-size: 1rem; padding: 10px 20px;">
-                Kembali ke Halaman Utama
-              </button>
-            </a>
-          </section>
-        `;
+        <section class="container" style="text-align: center; padding: 40px 20px;" id="add-story-container" tabindex="-1">
+          <h2 style="margin-bottom: 24px; font-size: 1.5rem;">
+            Untuk menambahkan story, silakan login terlebih dahulu!
+          </h2>
+          <a href="#/">
+            <button class="btn-back" style="font-size: 1rem; padding: 10px 20px;">
+              Kembali ke Halaman Utama
+            </button>
+          </a>
+        </section>
+      `;
     }
 
     return `
-      <section class="container">
+      <a href="#add-story-container" class="skip-to-content">Langsung ke tambah story</a>
+      <section class="container" id="add-story-container" tabindex="-1">
         <h2>Tambah Story Baru</h2>
         <form id="add-story-form">
           <div class="form-group">
@@ -51,6 +52,13 @@ export default class AddStoryPage {
   }
 
   async afterRender() {
+    const skipLink = document.querySelector(".skip-to-content");
+    skipLink?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const target = document.getElementById("add-story-container");
+      if (target) target.focus();
+    });
+
     const token = localStorage.getItem("token");
     if (!token) return;
 
@@ -72,7 +80,7 @@ export default class AddStoryPage {
       if (messageElement) messageElement.innerText = "Gagal mengakses kamera.";
     }
 
-    // Ambil foto dari kamera
+    // Ambil foto
     takePhotoBtn.addEventListener("click", () => {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       canvas.toBlob((blob) => {
@@ -81,7 +89,7 @@ export default class AddStoryPage {
       canvas.style.display = "block";
     });
 
-    // Upload file lokal
+    // Upload file
     photoFileInput.addEventListener("change", () => {
       const file = photoFileInput.files[0];
       if (file) {
@@ -101,41 +109,32 @@ export default class AddStoryPage {
       }
     });
 
+    // Peta
     const map = L.map("map").setView([-6.2, 106.8], 10);
-    // Layer Peta
-    const streetsLayer = L.tileLayer(
-      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      {
-        attribution: "© OpenStreetMap contributors",
-      },
-    );
-
+    const streetsLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap contributors",
+    });
     const satelliteLayer = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
-      },
+      }
     );
+    const terrainLayer = L.tileLayer("https://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.jpg", {
+      attribution:
+        '&copy; <a href="https://stamen.com">Stamen Design</a> & <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>',
+    });
 
-    const terrainLayer = L.tileLayer(
-      "https://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.jpg",
+    L.control.layers(
       {
-        attribution:
-          '&copy; <a href="https://stamen.com">Stamen Design</a> & <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>',
-      },
-    );
-
-    L.control
-      .layers({
         Streets: streetsLayer,
         Satellite: satelliteLayer,
         Terrain: terrainLayer,
-      })
-      .addTo(map);
+      }
+    ).addTo(map);
 
     streetsLayer.addTo(map);
 
-    // Menentukan lokasi marker berdasarkan klik peta
     let marker = null;
     map.on("click", (e) => {
       currentLat = e.latlng.lat;
@@ -146,45 +145,39 @@ export default class AddStoryPage {
     });
 
     // Submit
-    document
-      .querySelector("#add-story-form")
-      .addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const description = document.querySelector("#description").value;
+    document.querySelector("#add-story-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const description = document.querySelector("#description").value;
 
-        if (!capturedBlob) {
-          document.querySelector("#message").innerText =
-            "Harap ambil atau unggah foto terlebih dahulu.";
-          return;
-        }
+      if (!capturedBlob) {
+        document.querySelector("#message").innerText =
+          "Harap ambil atau unggah foto terlebih dahulu.";
+        return;
+      }
 
-        try {
-          const response = await Api.postStory(
-            {
-              description,
-              photo: capturedBlob,
-              lat: currentLat,
-              lon: currentLon,
-            },
-            token,
-          );
+      try {
+        const response = await Api.postStory(
+          {
+            description,
+            photo: capturedBlob,
+            lat: currentLat,
+            lon: currentLon,
+          },
+          token
+        );
 
-          if (response.error) throw new Error(response.message);
+        if (response.error) throw new Error(response.message);
 
-          document.querySelector("#message").innerText =
-            "Story berhasil ditambahkan!";
-          if (cameraStream) {
-            cameraStream.getTracks().forEach((track) => track.stop());
-          }
+        document.querySelector("#message").innerText = "Story berhasil ditambahkan!";
+        if (cameraStream) cameraStream.getTracks().forEach((track) => track.stop());
+        window.location.hash = "/home";
+      } catch (err) {
+        document.querySelector("#message").innerText =
+          `Gagal menambahkan story: ${err.message}`;
+      }
+    });
 
-          window.location.hash = "/home";
-        } catch (err) {
-          document.querySelector("#message").innerText =
-            `Gagal menambahkan story: ${err.message}`;
-        }
-      });
-
-    // Matikan kamera jika pindah halaman
+    // Matikan kamera saat pindah halaman
     const stopCamera = () => {
       if (cameraStream) {
         cameraStream.getTracks().forEach((track) => track.stop());

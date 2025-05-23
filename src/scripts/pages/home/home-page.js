@@ -18,7 +18,8 @@ L.Icon.Default.mergeOptions({
 export default class HomePage {
   async render() {
     return `
-      <section class="container" id="home-container">
+      <a href="#home-container" class="skip-to-content">Langsung ke beranda</a>
+      <section class="container" id="home-container" tabindex="-1">
         <h2>Story Terbaru</h2>
         <div id="story-list" class="story-list"></div>
         <div id="map" style="height: 400px; margin-top: 2rem;"></div>
@@ -27,6 +28,14 @@ export default class HomePage {
   }
 
   async afterRender() {
+    // Skip to content
+    const skipLink = document.querySelector(".skip-to-content");
+    skipLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      const target = document.getElementById("home-container");
+      if (target) target.focus();
+    });
+
     const token = localStorage.getItem("token");
     const storyContainer = document.querySelector("#story-list");
     const mapContainer = document.querySelector("#map");
@@ -34,7 +43,7 @@ export default class HomePage {
 
     if (!token) {
       homeContainer.innerHTML = `
-        <section style="text-align: center; padding: 40px 20px;">
+        <section style="text-align: center; padding: 40px 20px;" tabindex="-1">
           <h2 style="margin-bottom: 24px; font-size: 1.5rem;">
             Untuk mengakses beranda, silakan login terlebih dahulu!
           </h2>
@@ -62,24 +71,24 @@ export default class HomePage {
             <small>${new Date(story.createdAt).toLocaleString()}</small>
           </div>
         </div>
-      `,
+      `
         )
         .join("");
 
       const map = L.map(mapContainer).setView([0, 0], 2);
-      // Menambahkan berbagai tile layer
+
       const streetsLayer = L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         {
           attribution: "© OpenStreetMap contributors",
-        },
+        }
       );
 
       const satelliteLayer = L.tileLayer(
         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         {
           attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
-        },
+        }
       );
 
       const terrainLayer = L.tileLayer(
@@ -87,10 +96,9 @@ export default class HomePage {
         {
           attribution:
             '&copy; <a href="https://stamen.com">Stamen Design</a> & <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>',
-        },
+        }
       );
 
-      // Menambahkan Layer Control
       L.control
         .layers(
           {
@@ -101,13 +109,12 @@ export default class HomePage {
           {},
           {
             collapsed: false,
-          },
+          }
         )
         .addTo(map);
 
       streetsLayer.addTo(map);
 
-      // Menentukan koordinat untuk menampilkan marker
       const coordinates = listStory
         .filter((story) => story.lat && story.lon)
         .map((story) => [story.lat, story.lon]);
@@ -122,12 +129,11 @@ export default class HomePage {
         map.setView([avgLat, avgLon], 10);
       }
 
-      // Menambahkan marker untuk setiap story
       listStory.forEach((story) => {
         if (story.lat && story.lon) {
           const marker = L.marker([story.lat, story.lon]).addTo(map);
           marker.bindPopup(
-            `<strong>${story.name}</strong><br>${story.description}`,
+            `<strong>${story.name}</strong><br>${story.description}`
           );
         }
       });
