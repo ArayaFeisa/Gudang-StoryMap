@@ -1,5 +1,5 @@
-import AddStoryView from './add-story-view';
-import AddStoryPresenter from './add-story-presenter';
+import AddStoryView from "./add-story-view";
+import AddStoryPresenter from "./add-story-presenter";
 
 const AddStoryPage = {
   async render() {

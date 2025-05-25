@@ -22,10 +22,9 @@ export default class SignupPresenter {
         messageContainer.innerHTML = `<p class="error">${result.message}</p>`;
       }
     } catch (error) {
-      messageContainer.innerHTML =
-        `<p class="error">Gagal mendaftar. Coba lagi.</p>`;
+      messageContainer.innerHTML = `<p class="error">Gagal mendaftar. Coba lagi.</p>`;
     } finally {
-      loadingOverlay.classList.add("loading-hidden"); // Hide loading
+      loadingOverlay.classList.add("loading-hidden");
     }
   }
 }

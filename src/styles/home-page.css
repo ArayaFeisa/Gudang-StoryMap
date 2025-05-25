@@ -91,7 +91,6 @@
   border-radius: 4px;
 }
 
-
 @media (max-width: 768px) {
   .story-item {
     flex-direction: column;

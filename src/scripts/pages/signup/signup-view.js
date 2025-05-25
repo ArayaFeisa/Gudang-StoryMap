@@ -54,9 +54,15 @@ const SignupView = {
       const password = form.password.value;
 
       loadingOverlay.classList.remove("loading-hidden"); // Show loading
-      await signupHandler(name, email, password, messageContainer, loadingOverlay);
+      await signupHandler(
+        name,
+        email,
+        password,
+        messageContainer,
+        loadingOverlay,
+      );
     });
-  }
+  },
 };
 
 export default SignupView;

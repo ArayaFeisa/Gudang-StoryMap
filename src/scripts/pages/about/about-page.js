@@ -36,6 +36,6 @@ export default class AboutPage {
         section.style.opacity = 1;
         section.style.transform = "translateY(0)";
       }, 100);
-    };
+    }
   }
 }

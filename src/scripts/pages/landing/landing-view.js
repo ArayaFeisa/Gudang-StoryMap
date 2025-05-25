@@ -30,7 +30,7 @@ const LandingView = {
     document.getElementById("start-button")?.addEventListener("click", () => {
       window.location.hash = "/login";
     });
-  }
+  },
 };
 
 export default LandingView;

@@ -27,20 +27,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   const renderWithTransition = async () => {
-  const main = document.querySelector("#main-content");
+    const main = document.querySelector("#main-content");
 
-  if (document.startViewTransition && main) {
-    await document.startViewTransition(async () => {
+    if (document.startViewTransition && main) {
+      await document.startViewTransition(async () => {
+        await app.renderPage();
+        toggleLogoutButton();
+      });
+    } else {
       await app.renderPage();
       toggleLogoutButton();
-    });
-  } else {
-    // fallback animasi manual kalau perlu
-    await app.renderPage();
-    toggleLogoutButton();
-  }
+    }
   };
-
 
   await renderWithTransition();
 

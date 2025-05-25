@@ -70,7 +70,6 @@ button:hover,
   color: #3e2c23;
 }
 
-/* Spacing antar elemen */
 #take-photo {
   margin-bottom: 1rem;
 }
@@ -99,7 +98,9 @@ input[type="file"] {
   justify-content: center;
   z-index: 9999;
   backdrop-filter: blur(3px);
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 }
 
 #loading-overlay:not(.loading-hidden) {

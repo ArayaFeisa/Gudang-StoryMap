@@ -48,6 +48,12 @@ const AddStoryView = {
         </form>
         <div id="message"></div>
       </section>
+      <div id="loading-overlay" class="loading-hidden" aria-hidden="true">
+    <div class="loading-popup">
+      <div class="spinner"></div>
+      <p>Memproses story...</p>
+    </div>
+  </div>
     `;
   },
 };

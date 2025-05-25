@@ -40,8 +40,9 @@ const HomeView = {
 
   renderStories(listStory) {
     const container = document.getElementById("story-list");
-    container.innerHTML = listStory.map(
-      (story) => `
+    container.innerHTML = listStory
+      .map(
+        (story) => `
         <div class="story-item">
           <img src="${story.photoUrl}" alt="${story.name}" class="story-img" />
           <div class="story-content">
@@ -50,7 +51,9 @@ const HomeView = {
             <small>${new Date(story.createdAt).toLocaleString()}</small>
           </div>
         </div>
-    `).join("");
+    `,
+      )
+      .join("");
   },
 
   renderMap(listStory) {
@@ -72,39 +75,47 @@ const HomeView = {
 
     const streetsLayer = L.tileLayer(
       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      { attribution: "© OpenStreetMap contributors" }
+      { attribution: "© OpenStreetMap contributors" },
     );
 
     const satelliteLayer = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-      { attribution: "Tiles © Esri" }
+      { attribution: "Tiles © Esri" },
     );
 
     const terrainLayer = L.tileLayer(
       "https://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.jpg",
-      { attribution: "© Stamen Design" }
+      { attribution: "© Stamen Design" },
     );
 
-    L.control.layers({
-      Streets: streetsLayer,
-      Satellite: satelliteLayer,
-      Terrain: terrainLayer,
-    }).addTo(map);
+    L.control
+      .layers({
+        Streets: streetsLayer,
+        Satellite: satelliteLayer,
+        Terrain: terrainLayer,
+      })
+      .addTo(map);
 
     streetsLayer.addTo(map);
 
-    const coordinates = listStory.filter(s => s.lat && s.lon).map(s => [s.lat, s.lon]);
+    const coordinates = listStory
+      .filter((s) => s.lat && s.lon)
+      .map((s) => [s.lat, s.lon]);
 
     if (coordinates.length > 0) {
-      const avgLat = coordinates.reduce((sum, c) => sum + c[0], 0) / coordinates.length;
-      const avgLon = coordinates.reduce((sum, c) => sum + c[1], 0) / coordinates.length;
+      const avgLat =
+        coordinates.reduce((sum, c) => sum + c[0], 0) / coordinates.length;
+      const avgLon =
+        coordinates.reduce((sum, c) => sum + c[1], 0) / coordinates.length;
       map.setView([avgLat, avgLon], 10);
     }
 
     listStory.forEach((story) => {
       if (story.lat && story.lon) {
         const marker = L.marker([story.lat, story.lon]).addTo(map);
-        marker.bindPopup(`<strong>${story.name}</strong><br>${story.description}`);
+        marker.bindPopup(
+          `<strong>${story.name}</strong><br>${story.description}`,
+        );
       }
     });
   },
@@ -112,7 +123,7 @@ const HomeView = {
   showErrorMessage(message = "Gagal memuat data stories.") {
     const container = document.getElementById("story-list");
     container.innerHTML = `<p>${message}</p>`;
-  }
+  },
 };
 
 export default HomeView;

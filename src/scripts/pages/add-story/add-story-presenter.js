@@ -1,5 +1,5 @@
-import Api from '../../data/api';
-import L from 'leaflet';
+import Api from "../../data/api";
+import L from "leaflet";
 
 const AddStoryPresenter = {
   bindEvent() {
@@ -25,7 +25,8 @@ const AddStoryPresenter = {
     let currentLon = null;
     let cameraStream = null;
 
-    navigator.mediaDevices.getUserMedia({ video: true })
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
       .then((stream) => {
         cameraStream = stream;
         video.srcObject = stream;
@@ -83,26 +84,28 @@ const AddStoryPresenter = {
         return;
       }
 
-      // Tampilkan loading
       loadingOverlay?.classList.remove("loading-hidden");
 
       try {
-        const response = await Api.postStory({
-          description,
-          photo: capturedBlob,
-          lat: currentLat,
-          lon: currentLon,
-        }, token);
+        const response = await Api.postStory(
+          {
+            description,
+            photo: capturedBlob,
+            lat: currentLat,
+            lon: currentLon,
+          },
+          token,
+        );
 
         if (response.error) throw new Error(response.message);
 
         message.innerText = "Story berhasil ditambahkan!";
-        if (cameraStream) cameraStream.getTracks().forEach((track) => track.stop());
+        if (cameraStream)
+          cameraStream.getTracks().forEach((track) => track.stop());
         window.location.hash = "/home";
       } catch (err) {
         message.innerText = `Gagal menambahkan story: ${err.message}`;
       } finally {
-        // Sembunyikan loading
         loadingOverlay?.classList.add("loading-hidden");
       }
     });
