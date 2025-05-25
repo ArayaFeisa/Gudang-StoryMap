@@ -15,39 +15,36 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const toggleLogoutButton = () => {
     const token = localStorage.getItem("token");
-    if (token) {
-      logoutItem.style.display = "block";
-    } else {
-      logoutItem.style.display = "none";
-    }
+    logoutItem.style.display = token ? "block" : "none";
   };
 
   toggleLogoutButton();
 
   logoutButton?.addEventListener("click", () => {
     localStorage.removeItem("token");
-    logoutItem.style.display = "none";
+    toggleLogoutButton();
     window.location.hash = "/login";
   });
 
-  // Menambah view transition
-  if (document.startViewTransition) {
-    document.startViewTransition(async () => {
-      await app.renderPage();
-    });
-  } else {
-    await app.renderPage();
-  }
+  const renderWithTransition = async () => {
+  const main = document.querySelector("#main-content");
 
-  window.addEventListener("hashchange", async () => {
-    if (document.startViewTransition) {
-      document.startViewTransition(async () => {
-        await app.renderPage();
-        toggleLogoutButton();
-      });
-    } else {
+  if (document.startViewTransition && main) {
+    await document.startViewTransition(async () => {
       await app.renderPage();
       toggleLogoutButton();
-    }
+    });
+  } else {
+    // fallback animasi manual kalau perlu
+    await app.renderPage();
+    toggleLogoutButton();
+  }
+  };
+
+
+  await renderWithTransition();
+
+  window.addEventListener("hashchange", async () => {
+    await renderWithTransition();
   });
 });

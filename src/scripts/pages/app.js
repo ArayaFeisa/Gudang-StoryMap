@@ -35,30 +35,15 @@ class App {
     });
   }
 
-  _addFadeIn() {
-    this.#content.classList.remove("fade-out");
-    this.#content.classList.add("fade-in");
-  }
-
-  _addFadeOut() {
-    this.#content.classList.remove("fade-in");
-    this.#content.classList.add("fade-out");
-  }
-
   async renderPage() {
-  const url = getActiveRoute();
-  console.log("Rute aktif:", url); // ⬅️ Tambahkan ini
-  const page = routes[url];
+    const url = getActiveRoute();
+    console.log("Rute aktif:", url);
+    const page = routes[url];
 
-  this._addFadeOut();
-
-  setTimeout(async () => {
+    // Update konten langsung tanpa delay
     this.#content.innerHTML = await page.render();
     await page.afterRender();
-    this._addFadeIn();
-  }, 500);
-}
-
+  }
 }
 
 export default App;
