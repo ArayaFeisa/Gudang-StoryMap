@@ -1,7 +1,9 @@
-export default class AboutPage {
-  async render() {
+const AboutView = {
+  render() {
     return `
-      <section class="container" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+      <a href="#about-container" class="skip-to-content">Langsung ke profil kami</a>
+
+      <section class="container" id="about-container" tabindex="-1" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
         <h1 style="text-align: center; margin-bottom: 1.5rem;">Tentang Platform Ini</h1>
         <p style="font-size: 1.1rem; line-height: 1.6;">
           Website ini memungkinkan pengguna untuk membagikan kisah mereka secara visual 
@@ -22,20 +24,7 @@ export default class AboutPage {
         </div>
       </section>
     `;
-  }
+  },
+};
 
-  async afterRender() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-
-    const section = document.querySelector(".container");
-    if (section) {
-      section.style.opacity = 0;
-      section.style.transform = "translateY(30px)";
-      setTimeout(() => {
-        section.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-        section.style.opacity = 1;
-        section.style.transform = "translateY(0)";
-      }, 100);
-    }
-  }
-}
+export default AboutView;
