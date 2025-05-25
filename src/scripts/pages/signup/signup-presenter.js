@@ -10,7 +10,7 @@ export default class SignupPresenter {
     SignupView.bindEvents(this._handleSignup.bind(this));
   }
 
-  async _handleSignup(name, email, password, messageContainer) {
+  async _handleSignup(name, email, password, messageContainer, loadingOverlay) {
     try {
       const result = await Api.registerUser(name, email, password);
 
@@ -24,6 +24,8 @@ export default class SignupPresenter {
     } catch (error) {
       messageContainer.innerHTML =
         `<p class="error">Gagal mendaftar. Coba lagi.</p>`;
+    } finally {
+      loadingOverlay.classList.add("loading-hidden"); // Hide loading
     }
   }
 }

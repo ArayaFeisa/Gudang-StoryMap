@@ -109,7 +109,6 @@
   top: 0;
 }
 
-/* 🔄 Loading Overlay Style */
 #loading-overlay {
   position: fixed;
   top: 0;
@@ -125,14 +124,12 @@
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* Visible overlay */
 #loading-overlay:not(.loading-hidden) {
   opacity: 1;
   visibility: visible;
   pointer-events: all;
 }
 
-/* Hidden overlay */
 .loading-hidden {
   opacity: 0;
   visibility: hidden;
@@ -153,7 +150,6 @@
   color: #0a9db0;
 }
 
-/* Spinner Animation */
 .spinner {
   width: 40px;
   height: 40px;
@@ -181,7 +177,7 @@
   }
 }
 
-/* ✅ Responsif untuk mobile */
+/*Responsif */
 @media (max-width: 768px) {
   .login-wrapper {
     flex-direction: column-reverse;

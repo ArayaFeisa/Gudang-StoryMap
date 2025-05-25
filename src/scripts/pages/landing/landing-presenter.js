@@ -2,7 +2,7 @@ import LandingView from "./landing-view.js";
 
 export default class LandingPresenter {
   constructor() {
-    this._view = LandingView;  // cukup assign object literal
+    this._view = LandingView;
   }
 
   async render() {

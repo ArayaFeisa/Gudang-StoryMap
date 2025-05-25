@@ -46,7 +46,7 @@ const LoginView = {
     e.preventDefault();
     const email = form.email.value;
     const password = form.password.value;
-    loadingOverlay.classList.remove("loading-hidden"); // Show loading
+    loadingOverlay.classList.remove("loading-hidden");
     await loginHandler(email, password, message, loadingOverlay);
   });
 

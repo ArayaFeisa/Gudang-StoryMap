@@ -23,13 +23,20 @@ const SignupView = {
           </div>
         </div>
       </section>
+
+      <!-- Loading Overlay -->
+      <div id="loading-overlay" class="loading-hidden" aria-hidden="true">
+        <div class="loading-popup">
+          <div class="spinner"></div>
+          <p>Memproses pendaftaran...</p>
+        </div>
+      </div>
     `;
   },
 
   bindEvents(signupHandler) {
     const skipLink = document.getElementById("skip-to-content-link");
     const signupSection = document.getElementById("signup-content");
-
     skipLink?.addEventListener("click", (e) => {
       e.preventDefault();
       signupSection.scrollIntoView({ behavior: "smooth" });
@@ -38,6 +45,7 @@ const SignupView = {
 
     const form = document.getElementById("signup-form");
     const messageContainer = document.getElementById("signup-message");
+    const loadingOverlay = document.getElementById("loading-overlay");
 
     form?.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -45,7 +53,8 @@ const SignupView = {
       const email = form.email.value;
       const password = form.password.value;
 
-      signupHandler(name, email, password, messageContainer);
+      loadingOverlay.classList.remove("loading-hidden"); // Show loading
+      await signupHandler(name, email, password, messageContainer, loadingOverlay);
     });
   }
 };

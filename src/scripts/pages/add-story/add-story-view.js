@@ -16,6 +16,9 @@ const AddStoryView = {
             </button>
           </a>
         </section>
+        <div id="loading-overlay" class="loading-hidden" aria-hidden="true">
+          <div class="loading-spinner"></div>
+        </div>
       `;
     }
 

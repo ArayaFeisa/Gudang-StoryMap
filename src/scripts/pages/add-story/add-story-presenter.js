@@ -18,6 +18,7 @@ const AddStoryPresenter = {
     const takePhotoBtn = document.querySelector("#take-photo");
     const photoFileInput = document.querySelector("#photo-file");
     const message = document.querySelector("#message");
+    const loadingOverlay = document.querySelector("#loading-overlay");
 
     let capturedBlob = null;
     let currentLat = null;
@@ -72,7 +73,8 @@ const AddStoryPresenter = {
       marker = L.marker([currentLat, currentLon]).addTo(map);
     });
 
-    document.querySelector("#add-story-form").addEventListener("submit", async (e) => {
+    const addStoryForm = document.querySelector("#add-story-form");
+    addStoryForm?.addEventListener("submit", async (e) => {
       e.preventDefault();
       const description = document.querySelector("#description").value;
 
@@ -80,6 +82,9 @@ const AddStoryPresenter = {
         message.innerText = "Harap ambil atau unggah foto terlebih dahulu.";
         return;
       }
+
+      // Tampilkan loading
+      loadingOverlay?.classList.remove("loading-hidden");
 
       try {
         const response = await Api.postStory({
@@ -96,6 +101,9 @@ const AddStoryPresenter = {
         window.location.hash = "/home";
       } catch (err) {
         message.innerText = `Gagal menambahkan story: ${err.message}`;
+      } finally {
+        // Sembunyikan loading
+        loadingOverlay?.classList.add("loading-hidden");
       }
     });
 
