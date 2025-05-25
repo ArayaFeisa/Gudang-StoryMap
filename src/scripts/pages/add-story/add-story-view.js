@@ -1,3 +1,5 @@
+import "../../../styles/add-story-page.css";
+
 const AddStoryView = {
   render() {
     const token = localStorage.getItem("token");
