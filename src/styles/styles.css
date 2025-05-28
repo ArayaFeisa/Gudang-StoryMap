@@ -148,7 +148,9 @@ header {
 #main-content.highlight-focus {
   outline: 4px solid #ff9800;
   box-shadow: 0 0 10px rgba(255, 152, 0, 0.6);
-  transition: outline 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    outline 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 @keyframes fade-slide {

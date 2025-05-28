@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 
 const HomeView = {
   render() {
-  return `
+    return `
     <main id="main-content" class="container" tabindex="-1">
       <h2>Story Terbaru</h2>
       <div id="story-list" class="story-list"></div>
@@ -14,8 +14,7 @@ const HomeView = {
       <span>＋</span>
     </a>
   `;
-},
-
+  },
 
   showUnauthorizedMessage() {
     const container = document.getElementById("main-content");

@@ -8,7 +8,6 @@ export default class HomePresenter {
   }
 
   async afterRender() {
-
     const token = AuthModel.getToken();
     if (!token) {
       HomeView.showUnauthorizedMessage();

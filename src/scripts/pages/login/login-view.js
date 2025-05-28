@@ -62,8 +62,12 @@ const LoginView = {
       }
     };
 
-    emailInput?.addEventListener("input", () => validateField(emailInput, emailError));
-    passwordInput?.addEventListener("input", () => validateField(passwordInput, passwordError));
+    emailInput?.addEventListener("input", () =>
+      validateField(emailInput, emailError),
+    );
+    passwordInput?.addEventListener("input", () =>
+      validateField(passwordInput, passwordError),
+    );
 
     form?.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -81,7 +85,12 @@ const LoginView = {
       loadingOverlay.setAttribute("aria-hidden", "false");
 
       try {
-        await loginHandler(emailInput.value, passwordInput.value, message, loadingOverlay);
+        await loginHandler(
+          emailInput.value,
+          passwordInput.value,
+          message,
+          loadingOverlay,
+        );
       } finally {
         loadingOverlay.classList.add("loading-hidden");
         loadingOverlay.setAttribute("aria-hidden", "true");

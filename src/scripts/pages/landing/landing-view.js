@@ -17,16 +17,15 @@ const LandingView = {
   },
 
   bindEvents() {
-  document.getElementById("start-button")?.addEventListener("click", () => {
-    const token = AuthModel.getToken();
-    if (token) {
-      window.location.hash = "/home";
-    } else {
-      window.location.hash = "/login";
-    }
-  });
-},
-
+    document.getElementById("start-button")?.addEventListener("click", () => {
+      const token = AuthModel.getToken();
+      if (token) {
+        window.location.hash = "/home";
+      } else {
+        window.location.hash = "/login";
+      }
+    });
+  },
 };
 
 export default LandingView;

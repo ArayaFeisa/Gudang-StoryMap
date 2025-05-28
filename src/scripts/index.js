@@ -25,20 +25,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!skipLink || !mainContent) return;
 
     skipLink.addEventListener("click", (e) => {
-  e.preventDefault();
+      e.preventDefault();
 
-  mainContent.scrollIntoView({ behavior: "smooth", block: "start" });
-  mainContent.focus();
+      mainContent.scrollIntoView({ behavior: "smooth", block: "start" });
+      mainContent.focus();
 
-  skipLink.blur();
+      skipLink.blur();
 
-  mainContent.classList.add("highlight-focus");
+      mainContent.classList.add("highlight-focus");
 
-  setTimeout(() => {
-    mainContent.classList.remove("highlight-focus");
-  }, 2000);
-});
-
+      setTimeout(() => {
+        mainContent.classList.remove("highlight-focus");
+      }, 2000);
+    });
   };
 
   const renderWithTransition = async () => {
