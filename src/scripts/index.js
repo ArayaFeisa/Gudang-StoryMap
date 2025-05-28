@@ -13,24 +13,36 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const logoutButton = document.querySelector("#logout-button");
   const logoutItem = document.querySelector("#logout-item");
+  const skipLink = document.querySelector(".skip-to-content");
+  const mainContent = document.querySelector("#main-content");
 
   const toggleLogoutButton = () => {
     const token = AuthModel.getToken();
     logoutItem.style.display = token ? "block" : "none";
   };
 
-  toggleLogoutButton();
+  const handleSkipToContent = () => {
+    if (!skipLink || !mainContent) return;
 
-  logoutButton?.addEventListener("click", () => {
-    AuthModel.removeToken(); // ✅ Gunakan model
-    toggleLogoutButton();
-    window.location.hash = "/login";
-  });
+    skipLink.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  mainContent.scrollIntoView({ behavior: "smooth", block: "start" });
+  mainContent.focus();
+
+  skipLink.blur();
+
+  mainContent.classList.add("highlight-focus");
+
+  setTimeout(() => {
+    mainContent.classList.remove("highlight-focus");
+  }, 2000);
+});
+
+  };
 
   const renderWithTransition = async () => {
-    const main = document.querySelector("#main-content");
-
-    if (document.startViewTransition && main) {
+    if (document.startViewTransition && mainContent) {
       await document.startViewTransition(async () => {
         await app.renderPage();
         toggleLogoutButton();
@@ -41,6 +53,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
+  // Logout
+  logoutButton?.addEventListener("click", () => {
+    AuthModel.removeToken();
+    toggleLogoutButton();
+    window.location.hash = "/login";
+  });
+
+  handleSkipToContent();
   await renderWithTransition();
 
   window.addEventListener("hashchange", async () => {

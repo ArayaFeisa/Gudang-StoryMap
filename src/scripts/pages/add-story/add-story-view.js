@@ -7,7 +7,7 @@ const AddStoryView = {
 
     if (!token) {
       return `
-        <section class="container" style="text-align: center; padding: 40px 20px;" id="add-story-container" tabindex="-1">
+        <main class="container" id="main-content" tabindex="-1" style="text-align: center; padding: 40px 20px;">
           <h2 style="margin-bottom: 24px; font-size: 1.5rem;">
             Untuk menambahkan story, silakan login terlebih dahulu!
           </h2>
@@ -16,7 +16,7 @@ const AddStoryView = {
               Kembali ke Halaman Utama
             </button>
           </a>
-        </section>
+        </main>
         <div id="loading-overlay" class="loading-hidden" aria-hidden="true">
           <div class="loading-spinner"></div>
         </div>
@@ -24,8 +24,7 @@ const AddStoryView = {
     }
 
     return `
-      <a href="#add-story-container" class="skip-to-content">Langsung ke tambah story</a>
-      <section class="container" id="add-story-container" tabindex="-1">
+      <main class="container" id="main-content" tabindex="-1">
         <h2>Tambah Story Baru</h2>
         <form id="add-story-form">
           <div class="form-group">
@@ -48,13 +47,13 @@ const AddStoryView = {
           <button type="submit" class="submit-btn">Kirim</button>
         </form>
         <div id="message"></div>
-      </section>
+      </main>
       <div id="loading-overlay" class="loading-hidden" aria-hidden="true">
-    <div class="loading-popup">
-      <div class="spinner"></div>
-      <p>Memproses story...</p>
-    </div>
-  </div>
+        <div class="loading-popup">
+          <div class="spinner"></div>
+          <p>Memproses story...</p>
+        </div>
+      </div>
     `;
   },
 };

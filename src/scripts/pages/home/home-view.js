@@ -3,27 +3,22 @@ import "leaflet/dist/leaflet.css";
 
 const HomeView = {
   render() {
-    return `
-      <a href="#home-container" class="skip-to-content">Langsung ke beranda</a>
-      <section class="container" id="home-container" tabindex="-1">
-        <h2>Story Terbaru</h2>
-        <div id="story-list" class="story-list"></div>
-        <div id="map" style="height: 400px; margin-top: 2rem;"></div>
-      </section>
-    `;
-  },
+  return `
+    <main id="main-content" class="container" tabindex="-1">
+      <h2>Story Terbaru</h2>
+      <div id="story-list" class="story-list"></div>
+      <div id="map" style="height: 400px; margin-top: 2rem;"></div>
+    </main>
 
-  bindEvents() {
-    const skipLink = document.querySelector(".skip-to-content");
-    const target = document.getElementById("home-container");
-    skipLink?.addEventListener("click", (e) => {
-      e.preventDefault();
-      target?.focus();
-    });
-  },
+    <a href="#/add-story" class="add-story-button" aria-label="Tambah Story">
+      <span>＋</span>
+    </a>
+  `;
+},
+
 
   showUnauthorizedMessage() {
-    const container = document.getElementById("home-container");
+    const container = document.getElementById("main-content");
     container.innerHTML = `
       <section style="text-align: center; padding: 40px 20px;" tabindex="-1">
         <h2 style="margin-bottom: 24px; font-size: 1.5rem;">

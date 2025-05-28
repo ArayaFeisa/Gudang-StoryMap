@@ -92,23 +92,6 @@
   border-radius: 10px;
 }
 
-.skip-to-content {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: #0a9db0;
-  color: white;
-  padding: 8px 16px;
-  z-index: 100;
-  text-decoration: none;
-  transition: top 0.3s;
-  border-radius: 0 0 5px 5px;
-}
-
-.skip-to-content:focus {
-  top: 0;
-}
-
 #loading-overlay {
   position: fixed;
   top: 0;

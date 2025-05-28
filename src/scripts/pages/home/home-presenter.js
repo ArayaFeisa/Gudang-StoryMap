@@ -8,7 +8,6 @@ export default class HomePresenter {
   }
 
   async afterRender() {
-    HomeView.bindEvents();
 
     const token = AuthModel.getToken();
     if (!token) {

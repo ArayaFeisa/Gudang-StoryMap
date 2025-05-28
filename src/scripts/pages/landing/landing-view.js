@@ -1,11 +1,10 @@
 import "../../../styles/landing-page.css";
+import AuthModel from "../../data/auth-model.js";
 
 const LandingView = {
   render() {
     return `
-      <a href="#" class="skip-to-content" id="skip-to-content-link">Langsung ke konten utama</a>
-
-      <main id="landing-main" class="landing container" tabindex="-1">
+      <main id="main-content" class="landing container" tabindex="-1">
         <div class="landing-text">
           <h1>Selamat Datang di Gudang StoryMap!</h1>
           <button id="start-button" class="start-button" aria-label="Mulai menggunakan aplikasi StoryMap">
@@ -18,19 +17,16 @@ const LandingView = {
   },
 
   bindEvents() {
-    const skipLink = document.getElementById("skip-to-content-link");
-    const landingMain = document.getElementById("landing-main");
-
-    skipLink?.addEventListener("click", (e) => {
-      e.preventDefault();
-      landingMain.scrollIntoView({ behavior: "smooth" });
-      landingMain.focus();
-    });
-
-    document.getElementById("start-button")?.addEventListener("click", () => {
+  document.getElementById("start-button")?.addEventListener("click", () => {
+    const token = AuthModel.getToken();
+    if (token) {
+      window.location.hash = "/home";
+    } else {
       window.location.hash = "/login";
-    });
-  },
+    }
+  });
+},
+
 };
 
 export default LandingView;
