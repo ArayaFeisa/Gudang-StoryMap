@@ -1,4 +1,5 @@
 import Api from "../../data/api";
+import AuthModel from "../../data/auth-model.js";
 import L from "leaflet";
 
 const AddStoryPresenter = {
@@ -9,7 +10,7 @@ const AddStoryPresenter = {
       document.getElementById("add-story-container")?.focus();
     });
 
-    const token = localStorage.getItem("token");
+    const token = AuthModel.getToken();
     if (!token) return;
 
     const video = document.querySelector("#camera");

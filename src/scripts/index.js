@@ -2,6 +2,7 @@
 import "../styles/styles.css";
 
 import App from "./pages/app";
+import AuthModel from "./data/auth-model.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const app = new App({
@@ -14,14 +15,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const logoutItem = document.querySelector("#logout-item");
 
   const toggleLogoutButton = () => {
-    const token = localStorage.getItem("token");
+    const token = AuthModel.getToken();
     logoutItem.style.display = token ? "block" : "none";
   };
 
   toggleLogoutButton();
 
   logoutButton?.addEventListener("click", () => {
-    localStorage.removeItem("token");
+    AuthModel.removeToken(); // ✅ Gunakan model
     toggleLogoutButton();
     window.location.hash = "/login";
   });

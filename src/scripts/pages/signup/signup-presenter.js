@@ -10,21 +10,20 @@ export default class SignupPresenter {
     SignupView.bindEvents(this._handleSignup.bind(this));
   }
 
-  async _handleSignup(name, email, password, messageContainer, loadingOverlay) {
+  async _handleSignup(name, email, password) {
     try {
       const result = await Api.registerUser(name, email, password);
 
       if (!result.error) {
-        messageContainer.innerHTML =
-          '<p class="success">Akun berhasil dibuat. Silakan login.</p>';
+        SignupView.showSuccessMessage("Akun berhasil dibuat. Silakan login.");
         window.location.hash = "#/login";
       } else {
-        messageContainer.innerHTML = `<p class="error">${result.message}</p>`;
+        SignupView.showErrorMessage(result.message);
       }
     } catch (error) {
-      messageContainer.innerHTML = `<p class="error">Gagal mendaftar. Coba lagi.</p>`;
+      SignupView.showErrorMessage("Gagal mendaftar. Coba lagi.");
     } finally {
-      loadingOverlay.classList.add("loading-hidden");
+      SignupView.hideLoading();
     }
   }
 }

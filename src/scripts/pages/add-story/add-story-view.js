@@ -1,8 +1,9 @@
 import "../../../styles/add-story-page.css";
+import AuthModel from "../../data/auth-model.js";
 
 const AddStoryView = {
   render() {
-    const token = localStorage.getItem("token");
+    const token = AuthModel.getToken();
 
     if (!token) {
       return `

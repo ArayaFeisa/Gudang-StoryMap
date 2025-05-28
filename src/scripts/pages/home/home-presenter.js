@@ -1,4 +1,5 @@
 import Api from "../../data/api.js";
+import AuthModel from "../../data/auth-model.js";
 import HomeView from "./home-view.js";
 
 export default class HomePresenter {
@@ -9,7 +10,7 @@ export default class HomePresenter {
   async afterRender() {
     HomeView.bindEvents();
 
-    const token = localStorage.getItem("token");
+    const token = AuthModel.getToken();
     if (!token) {
       HomeView.showUnauthorizedMessage();
       return;

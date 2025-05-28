@@ -44,24 +44,35 @@ const SignupView = {
     });
 
     const form = document.getElementById("signup-form");
-    const messageContainer = document.getElementById("signup-message");
-    const loadingOverlay = document.getElementById("loading-overlay");
-
     form?.addEventListener("submit", async (e) => {
       e.preventDefault();
       const name = form.name.value;
       const email = form.email.value;
       const password = form.password.value;
 
-      loadingOverlay.classList.remove("loading-hidden"); // Show loading
-      await signupHandler(
-        name,
-        email,
-        password,
-        messageContainer,
-        loadingOverlay,
-      );
+      this.showLoading();
+      await signupHandler(name, email, password);
     });
+  },
+
+  showSuccessMessage(message) {
+    const container = document.getElementById("signup-message");
+    container.innerHTML = `<p class="success">${message}</p>`;
+  },
+
+  showErrorMessage(message) {
+    const container = document.getElementById("signup-message");
+    container.innerHTML = `<p class="error">${message}</p>`;
+  },
+
+  showLoading() {
+    const loadingOverlay = document.getElementById("loading-overlay");
+    loadingOverlay.classList.remove("loading-hidden");
+  },
+
+  hideLoading() {
+    const loadingOverlay = document.getElementById("loading-overlay");
+    loadingOverlay.classList.add("loading-hidden");
   },
 };
 

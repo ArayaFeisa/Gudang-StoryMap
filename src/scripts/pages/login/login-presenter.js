@@ -1,4 +1,5 @@
-import Api from "../../data/api";
+import Api from "../../data/api.js";
+import AuthModel from "../../data/auth-model.js";
 import LoginView from "./login-view.js";
 
 export default class LoginPresenter {
@@ -9,14 +10,16 @@ export default class LoginPresenter {
   async afterRender() {
     const overlay = document.getElementById("loading-overlay");
     if (overlay) overlay.classList.add("loading-hidden");
+
     LoginView.bindEvents(this._handleLogin.bind(this));
   }
 
   async _handleLogin(email, password, messageElement, loadingOverlay) {
     try {
       const response = await Api.loginUser(email, password);
+
       if (!response.error) {
-        localStorage.setItem("token", response.loginResult.token);
+        AuthModel.setToken(response.loginResult.token);
         window.location.hash = "/home";
       } else {
         messageElement.textContent = "Login gagal: " + response.message;
